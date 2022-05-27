@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kf_drawer/kf_drawer.dart';
+import 'package:navnny_vanny/constants/colors.dart';
 import 'package:navnny_vanny/screens/book_nanny.dart';
 import 'package:navnny_vanny/screens/how_it_works.dart';
 import 'package:navnny_vanny/screens/mainPage.dart';
@@ -19,8 +21,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          fontFamily: GoogleFonts.alegreyaSans().fontFamily,
+          primarySwatch: Colors.blue,
+          textTheme: TextTheme(
+             headline6: TextStyle(
+                  fontSize: 12, color: Colors.white, fontWeight: FontWeight.w500, ),
+            headline4: TextStyle(
+                  fontSize: 16, color: mainColor, fontWeight: FontWeight.w500, ),
+              headline3: TextStyle(
+                  fontSize: 18, color: blueColor, fontWeight: FontWeight.bold),
+              headline2: TextStyle(
+                  fontSize: 20,
+                  color: blueColor,
+                  fontWeight: FontWeight.w900))),
       home: const MainWidget(),
     );
   }

@@ -18,12 +18,37 @@ class Widgets {
     );
   }
 
-  static Widget name({ required String name}) {
+  static Widget name({required String name}) {
     return Text(name,
         style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
             color: mainColor,
             fontFamily: GoogleFonts.alegreyaSans().fontFamily));
+  }
+
+  static Widget button(
+      {required Function onTap,
+      required BuildContext context,
+      required String text,
+      required Color color}) {
+    return InkWell(
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        height: 25,
+        width: 80,
+        decoration: BoxDecoration(
+            color: color,
+            borderRadius: const BorderRadius.all(Radius.circular(20))),
+        child: Center(
+            child: Text(
+          text,
+          textScaleFactor: 1.1,
+          style: Theme.of(context).textTheme.headline6,
+        )),
+      ),
+    );
   }
 }
