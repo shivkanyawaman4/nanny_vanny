@@ -345,7 +345,11 @@ class _HomeState extends State<Home> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     ImageIcon(
-                                      const AssetImage('assets/calendar.png'),
+                                      AssetImage(packageModal.packages![index]
+                                                  .packageName! ==
+                                              'Weekend Package'
+                                          ? 'assets/calendar1/png'
+                                          : 'assets/calendar.png'),
                                       color: index % 2 == 0
                                           ? mainColor
                                           : Colors.white,
@@ -367,7 +371,8 @@ class _HomeState extends State<Home> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        packageModal.packages![index].packageName!,
+                                        packageModal
+                                            .packages![index].packageName!,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline4!
@@ -376,7 +381,8 @@ class _HomeState extends State<Home> {
                                                 fontWeight: FontWeight.w500),
                                       ),
                                       Text(
-                                        packageModal.packages![index].price!.toString(),
+                                        packageModal.packages![index].price!
+                                            .toString(),
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline4!
@@ -393,7 +399,8 @@ class _HomeState extends State<Home> {
                                     SizedBox(
                                       width: size.width * 0.7,
                                       child: Text(
-                                        packageModal.packages![index].description!,
+                                        packageModal
+                                            .packages![index].description!,
                                         textAlign: TextAlign.justify,
                                         style: Theme.of(context)
                                             .textTheme
