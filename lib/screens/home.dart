@@ -108,13 +108,22 @@ class _HomeState extends State<Home> {
 
   final int _selectedIndex = 0;
   PackageModal packageModal = PackageModal();
+  bool showData = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     ApiServices.getRequest().then((value) {
-      packageModal = PackageModal.fromJson(value);
-      setState(() {});
+      if (value != null) {
+        packageModal = PackageModal.fromJson(value);
+        setState(() {
+          showData = true;
+        });
+      } else {
+        setState(() {
+          showData = true;
+        });
+      }
     });
   }
 
@@ -126,18 +135,6 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.white,
       body: SafeArea(
           child: Container(
-        // color: Colors.amber,
-        // decoration: BoxDecoration(
-        //   color: Colors.white,
-        //   boxShadow:  [
-        //     BoxShadow(
-        //       color: Colors.black.withOpacity(1),
-        //       blurRadius: 20,
-        //       spreadRadius: 30,
-        //       offset: Offset(0, 0),
-        //     ),
-        //   ],
-        // ),
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
@@ -233,82 +230,94 @@ class _HomeState extends State<Home> {
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.all(22.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        blurRadius: 3.0,
-                        spreadRadius: 1.0,
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              packageModal.currentBookings!.packageLabel!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4!
-                                  .copyWith(
-                                    color: mainColor,
-                                  ),
+                child: showData
+                    ? Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              blurRadius: 3.0,
+                              spreadRadius: 1.0,
                             ),
-                            Widgets.button(
-                                onTap: () {},
-                                context: context,
-                                text: 'Start',
-                                color: mainColor)
                           ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: size.height * 0.04),
-                          child: Row(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
                             children: [
-                              columnWidget(
-                                text: 'From',
-                                date: packageModal.currentBookings!.fromDate!,
-                                time: packageModal.currentBookings!.fromTime!,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    packageModal.currentBookings!.packageLabel!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4!
+                                        .copyWith(
+                                          color: mainColor,
+                                        ),
+                                  ),
+                                  Widgets.button(
+                                      onTap: () {},
+                                      context: context,
+                                      text: 'Start',
+                                      color: mainColor)
+                                ],
                               ),
-                              SizedBox(
-                                width: size.width * 0.12,
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: size.height * 0.04),
+                                child: Row(
+                                  children: [
+                                    columnWidget(
+                                      text: 'From',
+                                      date: packageModal
+                                          .currentBookings!.fromDate!,
+                                      time: packageModal
+                                          .currentBookings!.fromTime!,
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.12,
+                                    ),
+                                    columnWidget(
+                                      text: 'To',
+                                      date:
+                                          packageModal.currentBookings!.toDate!,
+                                      time:
+                                          packageModal.currentBookings!.toTime!,
+                                    )
+                                  ],
+                                ),
                               ),
-                              columnWidget(
-                                text: 'To',
-                                date: packageModal.currentBookings!.toDate!,
-                                time: packageModal.currentBookings!.toTime!,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  buildButton(
+                                    text: 'Rate Us',
+                                    icon: 'assets/star.png',
+                                  ),
+                                  buildButton(
+                                    text: 'Geolocation',
+                                    icon: 'assets/pin.png',
+                                  ),
+                                  buildButton(
+                                    text: 'Survillence',
+                                    icon: 'assets/radio.png',
+                                  )
+                                ],
                               )
                             ],
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            buildButton(
-                              text: 'Rate Us',
-                              icon: 'assets/star.png',
-                            ),
-                            buildButton(
-                              text: 'Geolocation',
-                              icon: 'assets/pin.png',
-                            ),
-                            buildButton(
-                              text: 'Survillence',
-                              icon: 'assets/radio.png',
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(
+                          color: mainColor,
+                        ),
+                      ),
               ),
             ),
             SliverToBoxAdapter(
@@ -322,102 +331,117 @@ class _HomeState extends State<Home> {
             ),
             SliverPadding(
               padding: const EdgeInsets.all(22.0),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => SizedBox(
-                    child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Container(
-                          width: size.width,
-                          decoration: BoxDecoration(
-                            color: index % 2 == 0
-                                ? const Color(0xFFF0B3CD)
-                                : const Color(0xFF80ABDB),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ImageIcon(
-                                      AssetImage(packageModal.packages![index]
-                                                  .packageName! ==
-                                              'Weekend Package'
-                                          ? 'assets/calendar1/png'
-                                          : 'assets/calendar.png'),
+              sliver: showData
+                  ? packageModal.packages!.isNotEmpty
+                      ? SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => SizedBox(
+                              child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Container(
+                                    width: size.width,
+                                    decoration: BoxDecoration(
                                       color: index % 2 == 0
-                                          ? mainColor
-                                          : Colors.white,
+                                          ? const Color(0xFFF0B3CD)
+                                          : const Color(0xFF80ABDB),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10)),
                                     ),
-                                    Widgets.button(
-                                        onTap: () {},
-                                        context: context,
-                                        text: 'Book Now',
-                                        color: index % 2 == 0
-                                            ? mainColor
-                                            : const Color(0xFF0098D0))
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: size.height * 0.02),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        packageModal
-                                            .packages![index].packageName!,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(
-                                                color: blueColor,
-                                                fontWeight: FontWeight.w500),
-                                      ),
-                                      Text(
-                                        packageModal.packages![index].price!
-                                            .toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(
-                                                color: blueColor,
-                                                fontWeight: FontWeight.w700),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: size.width * 0.7,
-                                      child: Text(
-                                        packageModal
-                                            .packages![index].description!,
-                                        textAlign: TextAlign.justify,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline6,
-                                        softWrap: true,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              ImageIcon(
+                                                AssetImage(packageModal
+                                                            .packages![index]
+                                                            .packageName! ==
+                                                        'Weekend Package'
+                                                    ? 'assets/calendar1/png'
+                                                    : 'assets/calendar.png'),
+                                                color: index % 2 == 0
+                                                    ? mainColor
+                                                    : Colors.white,
+                                              ),
+                                              Widgets.button(
+                                                  onTap: () {},
+                                                  context: context,
+                                                  text: 'Book Now',
+                                                  color: index % 2 == 0
+                                                      ? mainColor
+                                                      : const Color(0xFF0098D0))
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: size.height * 0.02),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  packageModal.packages![index]
+                                                      .packageName!,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline4!
+                                                      .copyWith(
+                                                          color: blueColor,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                ),
+                                                Text(
+                                                  packageModal
+                                                      .packages![index].price!
+                                                      .toString(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline4!
+                                                      .copyWith(
+                                                          color: blueColor,
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: size.width * 0.7,
+                                                child: Text(
+                                                  packageModal.packages![index]
+                                                      .description!,
+                                                  textAlign: TextAlign.justify,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline6,
+                                                  softWrap: true,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                )
-                              ],
+                                  )),
                             ),
+                            childCount: packageModal.packages!.length,
                           ),
-                        )),
+                        )
+                      : SliverToBoxAdapter(child: const Center(child: Text('No Package Available')))
+                  : SliverToBoxAdapter(
+                    child: Center(
+                        child: CircularProgressIndicator(
+                        color: mainColor,
+                      )),
                   ),
-                  childCount: packageModal.packages!.length,
-                ),
-              ),
             ),
           ],
         ),

@@ -136,29 +136,25 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              // color: _selectedIndex == 0 ? mainColor : Colors.grey,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            activeIcon: ImageIcon(
+              AssetImage('assets/discount.png'),
+            ),
             icon: Icon(
               Icons.home,
-              // color: _selectedIndex == 1 ? mainColor : Colors.grey,
             ),
             label: 'Packages',
           ),
           BottomNavigationBarItem(
-            
-            icon: Icon(
-              Icons.search,
-              // color: _selectedIndex == 2 ? mainColor : Colors.grey
-            ),
+            icon: Icon(Icons.watch_later_outlined),
             label: 'Bookings',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-              // color: _selectedIndex == 3 ? mainColor : Colors.grey
             ),
             label: 'Profile',
           ),
