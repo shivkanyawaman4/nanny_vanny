@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kf_drawer/kf_drawer.dart';
+import 'package:navnny_vanny/api/api.dart';
+import 'package:navnny_vanny/modals/package_modal.dart';
 
 import '../constants/colors.dart';
 import '../widgets.dart';
@@ -105,9 +107,21 @@ class _HomeState extends State<Home> {
   }
 
   final int _selectedIndex = 0;
+  PackageModal packageModal = PackageModal();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ApiServices.getRequest().then((value) {
+      packageModal = PackageModal.fromJson(value);
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(packageModal.currentBookings);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -238,7 +252,7 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'One Day Package',
+                              packageModal.currentBookings!.packageLabel!,
                               style: Theme.of(context)
                                   .textTheme
                                   .headline4!
@@ -259,16 +273,18 @@ class _HomeState extends State<Home> {
                           child: Row(
                             children: [
                               columnWidget(
-                                  text: 'From',
-                                  date: '12.08.2020',
-                                  time: '12.08.2020'),
+                                text: 'From',
+                                date: packageModal.currentBookings!.fromDate!,
+                                time: packageModal.currentBookings!.fromTime!,
+                              ),
                               SizedBox(
                                 width: size.width * 0.12,
                               ),
                               columnWidget(
-                                  text: 'To',
-                                  date: '12.08.2020',
-                                  time: '12.08.2020')
+                                text: 'To',
+                                date: packageModal.currentBookings!.toDate!,
+                                time: packageModal.currentBookings!.toTime!,
+                              )
                             ],
                           ),
                         ),
@@ -351,7 +367,7 @@ class _HomeState extends State<Home> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'One Day Package',
+                                        packageModal.packages![index].packageName!,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline4!
@@ -360,7 +376,7 @@ class _HomeState extends State<Home> {
                                                 fontWeight: FontWeight.w500),
                                       ),
                                       Text(
-                                        '₹ 2799',
+                                        packageModal.packages![index].price!.toString(),
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline4!
@@ -377,7 +393,8 @@ class _HomeState extends State<Home> {
                                     SizedBox(
                                       width: size.width * 0.7,
                                       child: Text(
-                                        'kjandvnlvnanbvkliaqbnfiakzdvkaqbv;qbvkidbzxfawrfqeofnae467u wersgtdyj7ui7y6t5rewq kjhgfdghbjm bjkhgfxdghjk',
+                                        packageModal.packages![index].description!,
+                                        textAlign: TextAlign.justify,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline6,
@@ -391,7 +408,7 @@ class _HomeState extends State<Home> {
                           ),
                         )),
                   ),
-                  childCount: 4,
+                  childCount: packageModal.packages!.length,
                 ),
               ),
             ),
