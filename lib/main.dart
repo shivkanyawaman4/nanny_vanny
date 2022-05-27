@@ -24,10 +24,21 @@ class MyApp extends StatelessWidget {
           fontFamily: GoogleFonts.alegreyaSans().fontFamily,
           primarySwatch: Colors.blue,
           textTheme: TextTheme(
-             headline6: TextStyle(
-                  fontSize: 12, color: Colors.white, fontWeight: FontWeight.w500, ),
-            headline4: TextStyle(
-                  fontSize: 16, color: mainColor, fontWeight: FontWeight.w500, ),
+              headline6: const TextStyle(
+                fontSize: 10,
+                color: Color(0xFF494949),
+                fontWeight: FontWeight.w400,
+              ),
+              headline5: const TextStyle(
+                fontSize: 12,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+              headline4: TextStyle(
+                fontSize: 16,
+                color: mainColor,
+                fontWeight: FontWeight.w500,
+              ),
               headline3: TextStyle(
                   fontSize: 18, color: blueColor, fontWeight: FontWeight.bold),
               headline2: TextStyle(
@@ -61,6 +72,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               Text('Home', style: drawerTextStyle),
             ],
           ),
+          
           page: MainPage(),
         ),
         KFDrawerItem.initWithPage(
@@ -107,17 +119,20 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         controller: _drawerController,
         header: Align(
           alignment: Alignment.centerLeft,
-          child: Column(
-            children: [
-              Widgets.profile(
-                  context: context,
-                  img:
-                      'https://www.freeiconspng.com/thumbs/female-icon/female-icon-11.jpg'),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
-                child: Widgets.name(name: 'Emily Cyrus'),
-              ),
-            ],
+          child: Padding(
+            padding:   EdgeInsets.symmetric(horizontal: size.width * 0.2),
+            child: Column(
+              children: [
+                Widgets.profile(
+                    context: context,
+                    img:
+                        'https://www.freeiconspng.com/thumbs/female-icon/female-icon-11.jpg'),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+                  child: Widgets.name(name: 'Emily Cyrus'),
+                ),
+              ],
+            ),
           ),
         ),
         // footer: KFDrawerItem(
@@ -140,15 +155,16 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         //   // },
         // ),
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color.fromRGBO(255, 255, 255, 1.0),
-              Color.fromRGBO(44, 72, 171, 1.0)
-            ],
-            tileMode: TileMode.repeated,
-          ),
+          color: Colors.white
+          // gradient: LinearGradient(
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          //   colors: [
+          //     Color.fromRGBO(255, 255, 255, 1.0),
+          //     Color.fromRGBO(44, 72, 171, 1.0)
+          //   ],
+          //   tileMode: TileMode.repeated,
+          // ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:navnny_vanny/screens/my_profile.dart';
 import 'package:navnny_vanny/screens/support.dart';
 import 'package:navnny_vanny/screens/why_nanny_vanny.dart';
 
+import '../screens/home.dart';
 import '../screens/my_bookings.dart';
 
 typedef Constructor<T> = T Function();
@@ -18,6 +19,8 @@ void register<T>(Constructor<T> constructor) {
 
 class ClassBuilder {
   static void registerClasses() {
+    register<Home>(() => Home());
+
     register<MainPage>(() => MainPage());
     register<BookNanny>(() => BookNanny());
     register<HowItWorks>(() => HowItWorks());

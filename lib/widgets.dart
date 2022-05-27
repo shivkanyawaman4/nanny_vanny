@@ -46,7 +46,7 @@ class Widgets {
             child: Text(
           text,
           textScaleFactor: 1.1,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.headline5,
         )),
       ),
     );
